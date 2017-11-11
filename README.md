@@ -96,6 +96,8 @@ Variables can be called anything (just make sure you only use letters, numbers, 
     * 5.6, -43.543, 100.000, 56342.34698, -7865.342
   * Text, Strings
     * "Jack", "Ice Cream", "a", "145", "#tbh", "How are you doing to day?"
+  * Ture of false, boolean
+    * true or false
     
 Lets look at what all of these varialbes look like in code
 
@@ -106,5 +108,16 @@ wrd3g98tgdc_xTTcY = -2 #This is an extrem example of a variable name that is act
 otherNumber2 = 35678
 otherNumber1 = -87
 otherNumber2 = 0
+
+f = 4.5
+my_float = -6966.007401
+f = -0.90
+
+word = "banana"
+words = "banana split"
+
+isIt = true
+isIt = false
 ```
-  
+
+Now lets talk about opporators.
