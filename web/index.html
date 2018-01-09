@@ -2,82 +2,90 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Untitled Document</title>
-	
-	<!-- codemirror stylesheets -->
-	<link rel="stylesheet" type="text/css" href="plugin/codemirror/lib/codemirror.css">
-	<link rel="stylesheet" type="text/css" href="plugin/codemirror/theme/monokai.css">
-	
+	<title>Home</title>
+
 	<!-- gengral javascript files -->
 	<script type="text/javascript" src="js/default.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script> 
-	
-	<!-- codemirror javascript files -->
-	<script type="text/javascript" src="plugin/codemirror/lib/codemirror.js"></script>
-	<script type="text/javascript" src="plugin/codemirror/mode/python/python.js"></script>
-	
-	<!--skulpt javascript files -->
-	<script src="http://www.skulpt.org/static/skulpt.min.js" type="text/javascript"></script> 
-	<script src="http://www.skulpt.org/static/skulpt-stdlib.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+
+	<!-- firebase javascript files -->
+	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
+            authDomain: "hubio-e6c40.firebaseapp.com",
+            databaseURL: "https://hubio-e6c40.firebaseio.com",
+            projectId: "hubio-e6c40",
+            storageBucket: "hubio-e6c40.appspot.com",
+            messagingSenderId: "28392242924"
+        };
+        firebase.initializeApp(config);
+
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in.
+                var user = firebase.auth().currentUser;
+
+                if (user != null) {
+                    user.providerData.forEach(function (profile) {
+                        console.log("Sign-in provider: " + profile.providerId);
+                        console.log("  Provider-specific UID: " + profile.uid);
+                        console.log("  Name: " + profile.displayName);
+                        console.log("  Email: " + profile.email);
+                        console.log("  Photo URL: " + profile.photoURL);
+                    });
+                }
+            } else {
+                // No user is signed in.
+            }
+        });
+
+        function signIn() {
+            firebase.auth().signInWithRedirect(provider).then(function(result) {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = result.credential.accessToken;
+                // The signed-in user info.
+                var user = result.user;
+                console.log("signed in");
+                // ...
+            }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                console.log("error signing in");
+                console.log(errorCode);
+                console.log(errorMessage);
+                console.log(email);
+                console.log(credential);
+                // ...
+            });
+        }
+
+        function signOut() {
+            firebase.auth().signOut().then(function() {
+              // Sign-out successful.
+              console.log("Signed out");
+            }).catch(function(error) {
+              // An error happened.
+              console.log("error signing out");
+            });
+        }
+
+    </script>
 </head>
 
 <body>
-	<form>
-		<textarea class="codemirror-textarea" id="yourcode"></textarea>
-		<button type="button" onclick="runit()">Run</button> 
-	</form>
-	<pre id="output"></pre>
-	<div id="mycanvas"></div>
-	
-	
-	<script type="text/javascript">
-		var code = $(".codemirror-textarea")[0];
-		var editor = CodeMirror.fromTextArea(code, {
-			mode: "python",
-			theme: "monokai",
-			lineNumbers: true
-		});
-		
-		// output functions are configurable.  This one just appends some text
-		// to a pre element.
-		function outf(text) { 
-			var mypre = document.getElementById("output"); 
-			mypre.innerHTML = mypre.innerHTML + text; 
-		} 
-		function builtinRead(x) {
-			if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-					throw "File not found: '" + x + "'";
-			return Sk.builtinFiles["files"][x];
-		}
-		// Here's everything you need to run a python program in skulpt
-		// grab the code from your textarea
-		// get a reference to your pre element for output
-		// configure the output function
-		// call Sk.importMainWithBody()
-		function runit() { 
-		   var prog = editor.getValue();
-		   var mypre = document.getElementById("output"); 
-		   mypre.innerHTML = ''; 
-		   Sk.pre = "output";
-		   Sk.configure({output:outf, read:builtinRead}); 
-		   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
-		   var myPromise = Sk.misceval.asyncToPromise(function() {
-			   return Sk.importMainWithBody("<stdin>", false, prog, true);
-		   });
-		   myPromise.then(function(mod) {
-			   console.log('success');
-		   },
-			   function(err) {
-			   $("#output").text(err.toString());
-			   console.log(err.toString());
-		   });
-		} 
-		
-	</script>
-	<script type="text/javascript"> 
-			
-		</script>
-	
-	
+
+    <button type="button" onclick="signIn()">Google Sign In</button>
+    <button type="button" onclick="signOut()">Google Sign Out</button>
+    <a href="editor.html">To Editor</a>
+
 </body>
 </html>
