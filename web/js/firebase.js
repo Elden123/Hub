@@ -11,6 +11,11 @@
   firebase.initializeApp(config);
 
   var provider = new firebase.auth.GoogleAuthProvider();
+  var messages = firebase.database().ref().child("messages")
+
+  getMessages(0, 5)
+
+  console.log(list)
 
   firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -65,4 +70,62 @@ function signOut() {
       // An error happened.
       console.log("error signing out");
     });
+}
+
+/**
+* Save a message to the database with a unique key.
+* NOTE: Saves UTC time
+* @author Eric Higgins
+* @param _sender The sender's Name
+* @param _time A Date object representing the time the message was representing
+* @param _message The message to be saved (limit 10 MB)
+**/
+function putMessage(sender, time, message) {
+  messages.push().set({
+    sender: sender,
+    date: time.getUTCDate(),
+    day: time.getUTCDay(),
+    month: time.getUTCMonth(),
+    year: time.getUTCFullYear(),
+    hour: time.getUTCHours(),
+    minute: time.getUTCMinutes(),
+    second: time.getUTCSeconds(),
+    message: message
+  })
+}
+
+var list = []
+var getFinished = false
+
+/**
+* Get a page of messages from the database and put them on the webpage
+* This isn't really ideal, but Firebase fetches data asynchronously... :/
+* @param page The page number to retrieve (starts at 0)
+* @param size The size of one page
+**/
+function getMessages(page, size) {
+  var count = 0
+
+  messages.once("value").then(function(data) {
+    data.forEach(function(message) {
+      if(count >= page * size && count < (page+1) * size) {
+        list.push({
+          message: message.child("message").val(),
+          sender: message.child("sender").val(),
+          date: message.child("date").val(),
+          day: message.child("day").val(),
+          month: message.child("month").val(),
+          year: message.child("year").val(),
+          hour: message.child("hour").val(),
+          minute: message.child("minute").val(),
+          second: message.child("second").val()
+        })
+      }
+      else if(count > (page+1) * size) {
+        return true;
+      }
+      count += 1
+    })
+    getFinished = true;
+  })
 }
