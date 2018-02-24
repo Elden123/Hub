@@ -12,21 +12,19 @@
 
 	<!-- firebase javascript files -->
 	<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-	<script src="js/firebase.js" type='text/javascript' onLoad="javascript:initialize()"></script>
+	<script src="js/firebase.js" type='text/javascript'></script>
 </head>
 
-<body>
-
+<body background="images/island.png">
+	<!-- image courtesy of elicesp at https://pixabay.com/en/island-ducks-deserted-island-3028648/-->
 	<div id="content">
 		<div id="top_contents">
 			<img class="img" src="images/hub()_logo.png">
-			<h3 class="mdc-typography--display1 top_text">The Ultimate Educational Coding Program</h3>
+			<h3 class="mdc-typography--display1 top_text">Learn to Code in a Digital Classroom</h3>
 		</div>
-		<button type="button" onclick="javascript:signIn()">Google Sign In</button>
-		<button type="button" onclick="javascript:signOut()" >Google Sign Out</button>
-		<a href="editor.html">To Editor</a>
+		<input type="image" src = "images/google.png" onclick="javascript:signIn()"><br>
+		<button type="button" class="astext" onclick="javascript:signOut()">Sign Out</button>
+		<button type="button" class="astext" onclick="window.location.href='editor.html'">To Editor</a>
 	</div>
-
-
 </body>
 </html>
