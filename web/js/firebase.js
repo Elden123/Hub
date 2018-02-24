@@ -1,3 +1,5 @@
+var questions
+
 // Initialize Firebase
 {
   var config = {
@@ -11,11 +13,7 @@
   firebase.initializeApp(config);
 
   var provider = new firebase.auth.GoogleAuthProvider();
-  var messages = firebase.database().ref().child("messages")
-
-  getMessages(0, 5)
-
-  console.log(list)
+  questions = getReference()
 
   firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -35,6 +33,10 @@
           // No user is signed in.
       }
   });
+}
+
+function getReference() {
+  questions = firebase.database().ref().child("questions")
 }
 
 function signIn() {
@@ -76,12 +78,12 @@ function signOut() {
 * Save a message to the database with a unique key.
 * NOTE: Saves UTC time
 * @author Eric Higgins
-* @param _sender The sender's Name
-* @param _time A Date object representing the time the message was representing
-* @param _message The message to be saved (limit 10 MB)
+* @param sender The sender's Name
+* @param time A Date object representing the time the message was representing
+* @param question The question to be saved (limit 10 MB)
 **/
-function putMessage(sender, time, message) {
-  messages.push().set({
+function putQuestion(sender, time, message) {
+  questions.push().set({
     sender: sender,
     date: time.getUTCDate(),
     day: time.getUTCDay(),
@@ -90,7 +92,7 @@ function putMessage(sender, time, message) {
     hour: time.getUTCHours(),
     minute: time.getUTCMinutes(),
     second: time.getUTCSeconds(),
-    message: message
+    question: question
   })
 }
 
@@ -98,27 +100,27 @@ var list = []
 var getFinished = false
 
 /**
-* Get a page of messages from the database and put them on the webpage
+* Get a page of questions from the database and put them on the webpage
 * This isn't really ideal, but Firebase fetches data asynchronously... :/
 * @param page The page number to retrieve (starts at 0)
 * @param size The size of one page
 **/
-function getMessages(page, size) {
+function getQuestions(page, size) {
   var count = 0
 
-  messages.once("value").then(function(data) {
-    data.forEach(function(message) {
+  questions.once("value").then(function(data) {
+    data.forEach(function(question) {
       if(count >= page * size && count < (page+1) * size) {
         list.push({
-          message: message.child("message").val(),
-          sender: message.child("sender").val(),
-          date: message.child("date").val(),
-          day: message.child("day").val(),
-          month: message.child("month").val(),
-          year: message.child("year").val(),
-          hour: message.child("hour").val(),
-          minute: message.child("minute").val(),
-          second: message.child("second").val()
+          question: question.child("message").val(),
+          sender: question.child("sender").val(),
+          date: question.child("date").val(),
+          day: question.child("day").val(),
+          month: question.child("month").val(),
+          year: question.child("year").val(),
+          hour: question.child("hour").val(),
+          minute: question.child("minute").val(),
+          second: question.child("second").val()
         })
       }
       else if(count > (page+1) * size) {
@@ -129,3 +131,5 @@ function getMessages(page, size) {
     getFinished = true;
   })
 }
+
+console.log(firebase.apps.length)
