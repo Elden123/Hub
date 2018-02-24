@@ -1,38 +1,45 @@
 var questions
+var provider
 
 // Initialize Firebase
-{
-  var config = {
-      apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
-      authDomain: "hubio-e6c40.firebaseapp.com",
-      databaseURL: "https://hubio-e6c40.firebaseio.com",
-      projectId: "hubio-e6c40",
-      storageBucket: "hubio-e6c40.appspot.com",
-      messagingSenderId: "28392242924"
-  };
-  firebase.initializeApp(config);
+function initialize(){
+  try{
+    console.log("hksdjdfskjdhfkjshdkjfshdkjf")
+    var config = {
+        apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
+        authDomain: "hubio-e6c40.firebaseapp.com",
+        databaseURL: "https://hubio-e6c40.firebaseio.com",
+        projectId: "hubio-e6c40",
+        storageBucket: "hubio-e6c40.appspot.com",
+        messagingSenderId: "28392242924"
+    };
+    firebase.initializeApp(config);
 
-  var provider = new firebase.auth.GoogleAuthProvider();
-  questions = getReference()
+    provider = new firebase.auth.GoogleAuthProvider();
+    questions = getReference()
 
-  firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-          // User is signed in.
-          var user = firebase.auth().currentUser;
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            // User is signed in.
+            var user = firebase.auth().currentUser;
 
-          if (user != null) {
-              user.providerData.forEach(function (profile) {
-                  console.log("Sign-in provider: " + profile.providerId);
-                  console.log("  Provider-specific UID: " + profile.uid);
-                  console.log("  Name: " + profile.displayName);
-                  console.log("  Email: " + profile.email);
-                  console.log("  Photo URL: " + profile.photoURL);
-              });
-          }
-      } else {
-          // No user is signed in.
-      }
-  });
+            if (user != null) {
+                user.providerData.forEach(function (profile) {
+                    console.log("Sign-in provider: " + profile.providerId);
+                    console.log("  Provider-specific UID: " + profile.uid);
+                    console.log("  Name: " + profile.displayName);
+                    console.log("  Email: " + profile.email);
+                    console.log("  Photo URL: " + profile.photoURL);
+                });
+            }
+        } else {
+            // No user is signed in.
+        }
+    });
+  }
+  catch(err){
+    console.log("umm...")
+  }
 }
 
 function getReference() {
