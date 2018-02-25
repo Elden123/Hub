@@ -1,5 +1,6 @@
 var questions
 var provider
+var storage
 
 // Initialize Firebase
 function initialize(){
@@ -15,6 +16,8 @@ function initialize(){
 
   provider = new firebase.auth.GoogleAuthProvider()
   questions = firebase.database().ref().child("questions")
+  storage = firebase.storage().ref();
+
   firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
           // User is signed in.
@@ -130,12 +133,63 @@ function getQuestions(page, size) {
 }
 
 /**
-* Gets whether any user is logged in
+* Redirects to index if no user is logged in
 * @author Eric Higgins
-* @return Whether a user is logged in
 **/
-function isUserLoggedIn() {
+function redirectIfNoUser() {
+
+  firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          // User is signed in.
+          var user = firebase.auth().currentUser;
+
+          if (user != null) {
+              user.providerData.forEach(function (profile) {
+                  console.log("Sign-in provider: " + profile.providerId);
+                  console.log("  Provider-specific UID: " + profile.uid);
+                  console.log("  Name: " + profile.displayName);
+                  console.log("  Email: " + profile.email);
+                  console.log("  Photo URL: " + profile.photoURL);
+              });
+          }
+      } else {
+        console.log("Noooopppeee still dumb");
+        alert("You are not signed in. You will now be redirected back to the homepage.");
+        window.location.href = "index.html";      }
+  });
+}
+
+
+/*
+ * Saves the code textfile to the users account
+ * This will eventually call finishSaving()
+ * The saving process is split into two funcitons...
+ * ... becasuse user.getIdToken() takes a long time to do
+ *
+ * NOTE userToken is is a very long string that is unique...
+ *		... to each user (I think) and it is used to organize...
+ *		... firebase storage, giving each user their own 'folder'...
+ *      ... however, only the first 60 characters are used
+ */
+function saveFile(script) {
+
   var user = firebase.auth().currentUser;
-  console.log(user != null)
-  return (user != null)
+  var userToken;
+
+  if (user != null) {
+    user.getIdToken().then(function(data) {
+      userToken = data;
+      userToken = userToken.substring(0,60);
+      console.log(userToken);
+
+      var fileName = document.getElementById("fileName").value; //NOTE spaces are allowed
+      var fileRef = storage.child(userToken + "/" + fileName +".txt");
+
+      var file = new Blob([script], {type: "text/plain;charset=utf-8"});
+
+      fileRef.put(file).then(function(snapshot) {
+        console.log('Uploaded a blob or file!');
+      });
+    });
+  }
 }

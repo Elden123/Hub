@@ -10,54 +10,11 @@ var editor = CodeMirror.fromTextArea(code, {
 function callOnLoad() {
   initialize()
 
-  console.log(isUserLoggedIn())
-  if(!isUserLoggedIn()) {
-    console.log("Noooopppeee still dumb");
-    alert("You are not signed in. You will now be redirected back to the homepage.");
-    window.location.href = "index.html";
-  }
+  redirectIfNoUser()
 }
 
-/*
- * Saves the code textfile to the users account
- * This will eventually call finishSaving()
- * The saving process is split into two funcitons...
- * ... becasuse user.getIdToken() takes a long time to do
- *
- * NOTE userToken is is a very long string that is unique...
- *		... to each user (I think) and it is used to organize...
- *		... firebase storage, giving each user their own 'folder'...
- *      ... however, only the first 60 characters are used
- */
-function saveFile() {
-
-  var user = firebase.auth().currentUser;
-  var userToken;
-
-  if (user != null) {
-    user.getIdToken().then(function(data) {
-      userToken = data;
-      userToken = userToken.substring(0,60);
-      console.log(userToken);
-      finishSaving(userToken);
-      });
-  }
-}
-/*
- * Called by saveFile() when it is done getting userToken
- */
-function finishSaving(userToken) {
-
-  var fileName = document.getElementById("fileName").value; //NOTE spaces are allowed
-  var storageRef = firebase.storage().ref();
-  var fileRef = storageRef.child(userToken + "/" + fileName +".txt");
-
-  var text = editor.getValue();
-  var file = new Blob([text], {type: "text/plain;charset=utf-8"});
-
-  fileRef.put(file).then(function(snapshot) {
-    console.log('Uploaded a blob or file!');
-  });
+function saveCommand() {
+  saveFile(editor.getValue())
 }
 
 /*
