@@ -3,47 +3,36 @@ var provider
 
 // Initialize Firebase
 function initialize(){
-  try{
-    console.log("hksdjdfskjdhfkjshdkjfshdkjf")
-    var config = {
-        apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
-        authDomain: "hubio-e6c40.firebaseapp.com",
-        databaseURL: "https://hubio-e6c40.firebaseio.com",
-        projectId: "hubio-e6c40",
-        storageBucket: "hubio-e6c40.appspot.com",
-        messagingSenderId: "28392242924"
-    };
-    firebase.initializeApp(config);
+  var config = {
+      apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
+      authDomain: "hubio-e6c40.firebaseapp.com",
+      databaseURL: "https://hubio-e6c40.firebaseio.com",
+      projectId: "hubio-e6c40",
+      storageBucket: "hubio-e6c40.appspot.com",
+      messagingSenderId: "28392242924"
+  };
+  firebase.initializeApp(config);
 
-    provider = new firebase.auth.GoogleAuthProvider();
-    questions = getReference()
-
-    firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            // User is signed in.
-            var user = firebase.auth().currentUser;
-
-            if (user != null) {
-                user.providerData.forEach(function (profile) {
-                    console.log("Sign-in provider: " + profile.providerId);
-                    console.log("  Provider-specific UID: " + profile.uid);
-                    console.log("  Name: " + profile.displayName);
-                    console.log("  Email: " + profile.email);
-                    console.log("  Photo URL: " + profile.photoURL);
-                });
-            }
-        } else {
-            // No user is signed in.
-        }
-    });
-  }
-  catch(err){
-    console.log("umm...")
-  }
-}
-
-function getReference() {
+  provider = new firebase.auth.GoogleAuthProvider()
   questions = firebase.database().ref().child("questions")
+  firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          // User is signed in.
+          var user = firebase.auth().currentUser;
+
+          if (user != null) {
+              user.providerData.forEach(function (profile) {
+                  console.log("Sign-in provider: " + profile.providerId);
+                  console.log("  Provider-specific UID: " + profile.uid);
+                  console.log("  Name: " + profile.displayName);
+                  console.log("  Email: " + profile.email);
+                  console.log("  Photo URL: " + profile.photoURL);
+              });
+          }
+      } else {
+          // No user is signed in.
+      }
+  });
 }
 
 function signIn() {
@@ -89,7 +78,7 @@ function signOut() {
 * @param time A Date object representing the time the message was representing
 * @param question The question to be saved (limit 10 MB)
 **/
-function putQuestion(sender, time, message) {
+function putQuestion(sender, time, question) {
   questions.push().set({
     sender: sender,
     date: time.getUTCDate(),
@@ -109,6 +98,7 @@ var getFinished = false
 /**
 * Get a page of questions from the database and put them on the webpage
 * This isn't really ideal, but Firebase fetches data asynchronously... :/
+* @author Eric Higgins
 * @param page The page number to retrieve (starts at 0)
 * @param size The size of one page
 **/
@@ -139,4 +129,13 @@ function getQuestions(page, size) {
   })
 }
 
-console.log(firebase.apps.length)
+/**
+* Gets whether any user is logged in
+* @author Eric Higgins
+* @return Whether a user is logged in
+**/
+function isUserLoggedIn() {
+  var user = firebase.auth().currentUser;
+  console.log(user != null)
+  return (user != null)
+}

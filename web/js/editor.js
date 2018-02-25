@@ -7,33 +7,16 @@ var editor = CodeMirror.fromTextArea(code, {
   lineNumbers: true
 });
 
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyAV7fktp46lTXgtlqIEGIGFxbwsFxskQ-o",
-  authDomain: "hubio-e6c40.firebaseapp.com",
-  databaseURL: "https://hubio-e6c40.firebaseio.com",
-  projectId: "hubio-e6c40",
-  storageBucket: "hubio-e6c40.appspot.com",
-  messagingSenderId: "28392242924"
-};
-firebase.initializeApp(config);
+function callOnLoad() {
+  initialize()
 
-//handle if user is signed in or not
-firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-            // User is signed in.
-            var user = firebase.auth().currentUser;
-
-            if (user != null) {
-                console.log("User siged in");
-            }
-        } else {
-            // No user is signed in.
-    console.log("No user signed in");
+  console.log(isUserLoggedIn())
+  if(!isUserLoggedIn()) {
+    console.log("Noooopppeee still dumb");
     alert("You are not signed in. You will now be redirected back to the homepage.");
     window.location.href = "index.html";
-        }
-    });
+  }
+}
 
 /*
  * Saves the code textfile to the users account
@@ -41,7 +24,7 @@ firebase.auth().onAuthStateChanged(function(user) {
  * The saving process is split into two funcitons...
  * ... becasuse user.getIdToken() takes a long time to do
  *
- * NOTE userToken is is a very long string that us unique...
+ * NOTE userToken is is a very long string that is unique...
  *		... to each user (I think) and it is used to organize...
  *		... firebase storage, giving each user their own 'folder'...
  *      ... however, only the first 60 characters are used
@@ -59,8 +42,6 @@ function saveFile() {
       finishSaving(userToken);
       });
   }
-
-
 }
 /*
  * Called by saveFile() when it is done getting userToken
@@ -118,6 +99,10 @@ function runit() {
    });
 }
 
+/**
+* Retrieves the question from the text area and submits it to the databaseURL
+* @author Eric Higgins
+**/
 function submitQuestion() {
   var text = document.getElementById("questionArea").value;
 
