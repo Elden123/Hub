@@ -2,3 +2,12 @@
   width: 99.5%;
   resize: none;
 }
+
+#fileList {
+  border: 1px solid black;
+  width: 100%;
+}
+
+#fileName {
+  cursor: pointer;
+}

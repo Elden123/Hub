@@ -1,6 +1,14 @@
+//Reference to the questions database
 var questions
+
+//Authentication provider
 var provider
+
+//Reference to the file storage
 var storage
+
+//Reference to the database storing all files
+var storageListing
 
 // Initialize Firebase
 function initialize(){
@@ -17,6 +25,7 @@ function initialize(){
   provider = new firebase.auth.GoogleAuthProvider()
   questions = firebase.database().ref().child("questions")
   storage = firebase.storage().ref();
+  storageListing = firebase.database().ref().child("storage")
 
   firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -178,13 +187,11 @@ function saveFile(script) {
 
   if (user != null) {
     user.getIdToken().then(function(data) {
-      userToken = data;
-      userToken = userToken.substring(0,60);
-      console.log(userToken);
+      userToken = data.substring(0, 60);
 
       var fileName = document.getElementById("fileName").value; //NOTE spaces are allowed
-      var fileRef = storage.child(userToken + "/" + fileName +".txt");
-
+      var fileRef = storage.child(userToken + "/" + fileName + ".txt");
+      storageListing.child(userToken + "/" + fileName).set(fileName + ".txt")
       var file = new Blob([script], {type: "text/plain;charset=utf-8"});
 
       fileRef.put(file).then(function(snapshot) {
@@ -192,4 +199,53 @@ function saveFile(script) {
       });
     });
   }
+}
+
+/**
+* Show the list of files for the user to select once
+* @author Eric Higgins
+**/
+function showFileList() {
+  var user = firebase.auth().currentUser;
+  var userToken;
+
+  if (user != null) {
+    user.getIdToken().then(function(data) {
+      userToken = data.substring(0, 60);
+
+      var userFiles = storageListing.child(userToken);
+
+      userFiles.once("value", function(data){
+        var fileList = document.getElementById("fileList");
+        data.forEach(function(e){
+          var file = document.createElement("p");
+          file.innerHTML = e.val();
+          file.onclick = displayFile;
+          file.id = "fileName";
+          fileList.appendChild(file)
+        });
+      });
+    });
+  }
+}
+
+/**
+* Displays a file in the editor when a user selects it
+* @author Eric Higgins
+* @param The click event
+**/
+function displayFile(e) {
+  var fileName = e.toElement.innerHTML;
+  var user = firebase.auth().currentUser;
+
+  user.getIdToken().then(function(data) {
+    storage.child(data.substring(0, 60) + "/" + fileName).getDownloadURL().then(function(url){
+      var request = new XMLHttpRequest();
+      request.onload = function(event) {
+        editor.setValue(request.responseText);
+      };
+      request.open('GET', url);
+      request.send();
+    });
+  });
 }

@@ -7,14 +7,30 @@ var editor = CodeMirror.fromTextArea(code, {
   lineNumbers: true
 });
 
+/**
+* Called when this script loads. Initializes firebase and redirects if no user is logged in
+* @author Eric Higgins
+**/
 function callOnLoad() {
-  initialize()
+  initialize();
 
-  redirectIfNoUser()
+  redirectIfNoUser();
 }
 
+/**
+* Called when the save button is pressed to save the javascript
+* @author Eric Higgins
+**/
 function saveCommand() {
-  saveFile(editor.getValue())
+  saveFile(editor.getValue());
+}
+
+/**
+* Called when the load button is pressed. Displays available files for the user to select from
+* @author Eric Higgins
+**/
+function loadCommand() {
+  showFileList();
 }
 
 /*
@@ -63,13 +79,11 @@ function runit() {
 function submitQuestion() {
   var text = document.getElementById("questionArea").value;
 
-  putQuestion("Eric Higgins", new Date(), text)
+  putQuestion("Eric Higgins", new Date(), text);
 }
 
 document.onkeypress = function(e) {
-  e || window.event
-
   if(e.keyCode == 13) {
-    submitQuestion()
+    submitQuestion();
   }
 }
