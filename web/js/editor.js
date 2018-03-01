@@ -14,7 +14,7 @@ var editor = CodeMirror.fromTextArea(code, {
 function callOnLoad() {
   initialize();
 
-  redirectIfNoUser();
+  //redirectIfNoUser();
 }
 
 /**
@@ -34,6 +34,7 @@ function loadCommand() {
 }
 
 /*
+ * @NOTE DO NOT EDIT
  * Used for skulpt
  */
 function outf(text) {
@@ -42,6 +43,7 @@ function outf(text) {
 }
 
 /*
+ * @NOTE DO NOT EDIT
  * Used for skulpt
  */
 function builtinRead(x) {
@@ -51,6 +53,7 @@ function builtinRead(x) {
 }
 
 /*
+ * @NOTE DO NOT EDIT
  * Used for skulpt
  */
 function runit() {

@@ -10,6 +10,7 @@ var storage
 //Reference to the database storing all files
 var storageListing
 
+
 // Initialize Firebase
 function initialize(){
   var config = {
@@ -47,6 +48,10 @@ function initialize(){
   });
 }
 
+/**
+ * Signes the user in. Can be called regardless of a user actually being signed in
+ * @author Nolan Blankenau
+ **/
 function signIn() {
     firebase.auth().signInWithRedirect(provider).then(function(result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -72,6 +77,10 @@ function signIn() {
     });
 }
 
+/**
+ * Signes the user out. Can be called regardless of a user actually being signed in
+ * @author Nolan Blankenau
+ **/
 function signOut() {
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
@@ -169,17 +178,16 @@ function redirectIfNoUser() {
 }
 
 
-/*
+/**
  * Saves the code textfile to the users account
- * This will eventually call finishSaving()
- * The saving process is split into two funcitons...
- * ... becasuse user.getIdToken() takes a long time to do
  *
- * NOTE userToken is is a very long string that is unique...
+ * @param script is the editor's text/value
+ * @author Nolan Blankenau
+ * @NOTE userToken is is a very long string that is unique...
  *		... to each user (I think) and it is used to organize...
  *		... firebase storage, giving each user their own 'folder'...
- *      ... however, only the first 60 characters are used
- */
+ *      ... however, only the first 60 characters are used for now
+ **/
 function saveFile(script) {
 
   var user = firebase.auth().currentUser;
