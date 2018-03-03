@@ -14,7 +14,7 @@ var editor = CodeMirror.fromTextArea(code, {
 function callOnLoad() {
   initialize();
 
-  //redirectIfNoUser();
+  redirectIfNoUser();
 }
 
 /**
