@@ -12,6 +12,11 @@ h3 {
     font-weight: 200;
 }
 
+img {
+    width: 60vw;
+    height: auto;
+}
+
 #content {
     opacity: 0.5;
     background: url('images/island.png');

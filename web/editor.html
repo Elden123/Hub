@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<title>hub() editor</title>
 
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 	<!-- codemirror stylesheets -->
 	<link rel="stylesheet" type="text/css" href="plugin/codemirror/lib/codemirror.css">
 	<link rel="stylesheet" type="text/css" href="plugin/codemirror/theme/monokai.css">
@@ -29,17 +31,21 @@
 
 <body>
 	<div class="container">
-		<form>
-			<textarea class="codemirror-textarea" id="yourcode"></textarea>
-			<button type="button" onclick="runit()">Run</button>
-		</form>
-		<textarea id="fileName" placeholder="file name" rows="1" style="resize: none;"></textarea>
-		<button type="button" onclick="saveCommand()">Save</button>
-		<button type="button" onclick="loadCommand()">Load</button>
-		<pre id="output"></pre>
-		<div id="mycanvas"></div>
-		<div id="fileList"></div>
-		<script src="js/editor.js" type="text/javascript" onLoad="javascript:callOnLoad()"></script>
+		<div id="editor">
+			<form>
+				<textarea class="codemirror-textarea" id="yourcode"></textarea>
+				<button type="button" onclick="runit()" id="runBtn">Run</button>
+			</form>
+		</div>
+		<div class="sidebar">
+			<textarea id="fileName" placeholder="file name" rows="1" style="resize: none;"></textarea>
+			<button type="button" onclick="saveCommand()">Save</button>
+			<button type="button" onclick="loadCommand()">Load</button>
+			<pre id="output"></pre>
+			<div id="mycanvas"></div>
+			<div id="fileList"></div>
+			<script src="js/editor.js" type="text/javascript" onLoad="javascript:callOnLoad()"></script>
+		</div>
 		<!-- Commenting this out because it's not really useful at the moment and isn't necessary for the first week
 		<textarea id="questionArea" rows="10"></textarea>
 		<button id="submitQuestion" onClick="submitQuestion()">Submit</button>-->
