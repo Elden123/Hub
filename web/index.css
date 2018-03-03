@@ -1,41 +1,49 @@
-/*@mixin mdc-button-filled-accessible($mdc-button-stroke-color){
-    color: pink;*/
-
-html {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-}
-
 body {
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
     margin: 0;
     padding: 0;
-    /*background-image: url('images/island.png');*/
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: 100% auto;
-    background-color: rgb(212,212,212);
-    background-blend-mode: screen;
-    display: table;
+    background-color: rgb(212, 212, 212);
+}
+
+h3 {
+    text-align: center;
+    font-weight: 200;
 }
 
 #content {
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
+    opacity: 0.5;
+    background: url('images/island.png');
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: -999;
 }
 
-.top_text {
-    color: #FF8141FF;
+#container {
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
-.astext {
-    background:none;
-    border:none;
-    margin:0;
-    padding:5px;
+#banner {
+    color: #777777;
+    font-family: Roboto;
+    font-size: 5vh;
+}
+
+.btn {
+    background: none;
+    border: none;
+    font-size: 3vh;
+    font-family: Roboto;
+    color: #777777;
+    margin: 0;
+    padding: 0.5vh 2vw;
 }

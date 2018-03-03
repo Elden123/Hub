@@ -28,20 +28,21 @@
 </head>
 
 <body>
-	<form>
-		<textarea class="codemirror-textarea" id="yourcode"></textarea>
-		<button type="button" onclick="runit()">Run</button>
-	</form>
-	<textarea id="fileName" placeholder="file name" rows="1" style="resize: none;"></textarea>
-	<button type="button" onclick="saveCommand()">Save</button>
-	<button type="button" onclick="loadCommand()">Load</button>
-	<pre id="output"></pre>
-	<div id="mycanvas"></div>
-	<div id="fileList"></div>
-	<script src="js/editor.js" type="text/javascript" onLoad="javascript:callOnLoad()"></script>
-	<!-- Commenting this out because it's not really useful at the moment and isn't necessary for the first week
-	<textarea id="questionArea" rows="10"></textarea>
-	<button id="submitQuestion" onClick="submitQuestion()">Submit</button>-->
-
+	<div class="container">
+		<form>
+			<textarea class="codemirror-textarea" id="yourcode"></textarea>
+			<button type="button" onclick="runit()">Run</button>
+		</form>
+		<textarea id="fileName" placeholder="file name" rows="1" style="resize: none;"></textarea>
+		<button type="button" onclick="saveCommand()">Save</button>
+		<button type="button" onclick="loadCommand()">Load</button>
+		<pre id="output"></pre>
+		<div id="mycanvas"></div>
+		<div id="fileList"></div>
+		<script src="js/editor.js" type="text/javascript" onLoad="javascript:callOnLoad()"></script>
+		<!-- Commenting this out because it's not really useful at the moment and isn't necessary for the first week
+		<textarea id="questionArea" rows="10"></textarea>
+		<button id="submitQuestion" onClick="submitQuestion()">Submit</button>-->
+	</div>
 </body>
 </html>
