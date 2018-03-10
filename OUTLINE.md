@@ -9,7 +9,45 @@ I will look at what is taught, take note (maybe even quote them), and teach it m
 Then I will look at the exercises that are given by Codecademy, modify them to my liking, and have the students do them.
 
 ## Section 1 - Python Syntax
-### Part 1 - Variables 
+
+### Part 1 - Printing
+
+One of the most basic things you can do in python is print text to the screen. As far a python sees it, for now, there are only two different types of things you can print to the screen. Numbers, and everything else.
+
+To print a number it is very simple
+```python
+print(1)
+```
+You can place any number you would like (positive of negative number) in between the parentheses
+```python
+print(-274.81)
+```
+If you want to print multiple numbers to the screen you can just add some more print statements like so
+```python
+print(1)
+print(2)
+print(3)
+```
+
+Now for the everything else type. In the world of computer science we call them strings. A string can be any sequence of letters, numbers, or symbols that you can type on your keyboard. Think words, addresses, and formatted phone numbers. You can still use the print() keyword but the catch is that you must surround your string in double quotes.
+
+```
+print("Hello World!")
+```
+
+Remember, a string can be any combination of characters, so they could include numbers
+
+```python
+print("The ABCs are as easy as 123")
+```
+
+You can also print numbers and strings within the same print statement as long as you separate them by a comma
+
+```python
+print("Today is March", 10, "th")
+```
+
+### Part 2 - Variables 
 
 What is a variable and why do we need them?
   * Variables store "things" so that these "things" can be used and changed easily throughout a program.
