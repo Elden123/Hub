@@ -158,4 +158,36 @@ isIt = true
 isIt = false
 ```
 
-Now lets talk about opporators.
+Now lets talk about math opporators.
+
+### Part 2 - Opporators
+
+Can anyone tell me what a math opporator is?
+
+A math opporator is just the plus symbol, minus symbol, times symbol, and divide symbol. In python we can use those opporator to do math. The pluys symbol is as you would expect, just the plus and minus symbol. But the times symbol and divide symbole are bit difrerent. In python we have to use the symbol on the 8 key '*' for times and the symbol right on the questionmark key '/'.
+
+To add two numbers you can just write
+
+```python
+2 + 3
+```
+
+Now, while python does actually add these two numbers we would like two be able to do something with it, say print it out. You can two choices at this point. You could just print out 2+3 or you could first set it to a variable and then print it out. I will show both.
+
+```python
+print(5 + 1) # explain why you can do this, because 5+1 is a number. It is 6.
+x = 4 + 3
+print(x)
+```
+
+Using the other operators looks like this
+```python
+sub = 5 - 1
+multi = 3 * 2
+div = 10 / 5
+
+print(sub)
+print(multi)
+print(div)
+```
+
