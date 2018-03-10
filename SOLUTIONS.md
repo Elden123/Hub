@@ -37,3 +37,26 @@ added = int(num1) + int(num2)
 
 print(num1, "+", num2, "=", added)
 ```
+
+### Problem #4
+```python
+print("Welcome to the triable area solver")
+
+base = input("What is the base?")
+height = input("What is the height?")
+
+area = .5 * int(base) * int(height)
+
+print("The triable's area is", area)
+```
+
+### Problem #5
+```python
+print("Welcome to the circle area solver")
+
+radius = input("What is the radius?")
+
+area = 3.14 * int(radius) * int(radius)
+
+print("The circle's area is", area)
+```
