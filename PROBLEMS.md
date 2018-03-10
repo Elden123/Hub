@@ -17,25 +17,8 @@ Molly
 >>> Jake, you and Molly’s age is 2 year apart.
 ```
 
-
-
 ### Problem #2
-
 Now, instead of outputting the difference in age, can you write a program to output the average age between the two of you?
-
-Example output:
-``` console
->>> Welcome to the average age calculator
->>> What is your name?
-Jake
->>> What is your age?
-12
->>> What is your partner’s name?
-Molly
->>> What is their age?
-14
->>> Jake, you and Molly’s average age is 13 years.
-```
 
 ### Problem #3
 Create a program that will take two numbers as input and output the addition/subtraction/multiplication/division (you decide) of the two numbers.
