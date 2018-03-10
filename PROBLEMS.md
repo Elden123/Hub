@@ -22,6 +22,7 @@ Molly
 ### Problem #2
 
 Now, instead of outputting the difference in age, can you write a program to output the average age between the two of you?
+
 Example output:
 ``` console
 >>> Welcome to the average age calculator
